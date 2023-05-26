@@ -1,142 +1,155 @@
-# using tkinter
+import tkinter as tk
 
-from tkinter import *
-import math
+# Define the functions for the calculator
+def add(num1, num2):
+    return num1 + num2
 
-root = Tk()
+def subtract(num1, num2):
+    return num1 - num2
 
+def multiply(num1, num2):
+    return num1 * num2
+
+def divide(num1, num2):
+    return num1 / num2
+
+# Define the function to perform the calculation
+def calculate():
+    num1 = float(entry_num1.get())
+    num2 = float(entry_num2.get())
+    choice = choice_var.get()
+    result = 0
+
+    if choice == 1:
+        result = add(num1, num2)
+    elif choice == 2:
+        result = subtract(num1, num2)
+    elif choice == 3:
+        result = multiply(num1, num2)
+    elif choice == 4:
+        result = divide(num1, num2)
+
+    label_result.config(text=result)
+    history.append(f"{num1} {choice_symbols[choice]} {num2} = {result}")
+
+# Define the function to show the history
+from tkinter import messagebox
+
+def show_history():
+    history_text = "\n".join(history)
+    messagebox.showinfo("History", history_text)
+
+# Define the function to delete the last digit of the currently focused input field
+def delete_digit():
+    if entry_num1.focus_get() == entry_num1:
+        entry_num1.delete(len(entry_num1.get()) - 1, tk.END)
+    elif entry_num2.focus_get() == entry_num2:
+        entry_num2.delete(len(entry_num2.get()) - 1, tk.END)
+
+# Create the GUI
+root = tk.Tk()
 root.title("Calculator")
+root.geometry("420x390")  # Set the size of the window
 
-e = Entry(root, width=35, borderwidth=5)
+# Set the background color of the root window
+root.configure(background="#ca3d3d")
 
-e.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
+# Create the input fields
+label_num1 = tk.Label(root, text="Enter first number:",foreground="white", background="black", font=("Arial", 16))
+label_num1.grid(row=0, column=0)
 
-def button_click(number):
-    current = e.get()
-    e.delete(0, END)
-    e.insert(0, str(current) + str(number))
-    
-def button_clear():
-    e.delete(0, END)
-    
-def button_add():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "addition"
-    f_num = int(first_number)
-    e.delete(0, END)
-    
-def button_equal():
-    second_number = e.get()
-    e.delete(0, END)
-    if math == "addition":
-        e.insert(0, f_num + int(second_number))
-    if math == "subtraction":
-        e.insert(0, f_num - int(second_number))
-    if math == "multiplication":
-        e.insert(0, f_num * int(second_number))
-    if math == "division":
-        e.insert(0, f_num / int(second_number))
-        
-def button_subtract():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "subtraction"
-    f_num = int(first_number)
-    e.delete(0, END)
-    
-def button_multiply():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "multiplication"
-    f_num = int(first_number)
-    e.delete(0, END)
-    
-def button_divide():
-    first_number = e.get()
-    global f_num
-    global math
-    math = "division"
-    f_num = int(first_number)
-    e.delete(0, END)
-    
-# Define Buttons
+entry_num1 = tk.Entry(root)
+entry_num1.grid(row=0, column=1)
 
-button_1 = Button(root, text="1", padx=40, pady=20, command=lambda: button_click(1))
+label_num2 = tk.Label(root, text="Enter second number:",foreground="white", background="black", font=("Arial", 16))
+label_num2.grid(row=1, column=0)
 
-button_2 = Button(root, text="2", padx=40, pady=20, command=lambda: button_click(2))
+entry_num2 = tk.Entry(root)
+entry_num2.grid(row=1, column=1)
 
-button_3 = Button(root, text="3", padx=40, pady=20, command=lambda: button_click(3))
+# Create the radio buttons for the operation choice
+choice_var = tk.IntVar()
 
-button_4 = Button(root, text="4", padx=40, pady=20, command=lambda: button_click(4))
+radio_add = tk.Radiobutton(root, text="Add", variable=choice_var, value=1,foreground="white", background="black", font=("Arial", 16))
+radio_add.grid(row=2, column=0)
 
-button_5 = Button(root, text="5", padx=40, pady=20, command=lambda: button_click(5))
+radio_subtract = tk.Radiobutton(root, text="Subtract", variable=choice_var, value=2,foreground="white", background="black", font=("Arial", 16))
+radio_subtract.grid(row=2, column=1)
 
-button_6 = Button(root, text="6", padx=40, pady=20, command=lambda: button_click(6))
+radio_multiply = tk.Radiobutton(root, text="Multiply", variable=choice_var, value=3,foreground="white", background="black", font=("Arial", 16))
+radio_multiply.grid(row=3, column=0)
 
-button_7 = Button(root, text="7", padx=40, pady=20, command=lambda: button_click(7))
+radio_divide = tk.Radiobutton(root, text="Divide", variable=choice_var, value=4,foreground="white", background="black", font=("Arial", 16))
+radio_divide.grid(row=3, column=1)
 
-button_8 = Button(root, text="8", padx=40, pady=20, command=lambda: button_click(8))
+# Create the buttons for each number
+def add_digit(digit):
+    if entry_num1.focus_get() == entry_num1:
+        entry_num1.insert(tk.END, digit)
+    elif entry_num2.focus_get() == entry_num2:
+        entry_num2.insert(tk.END, digit)
 
-button_9 = Button(root, text="9", padx=40, pady=20, command=lambda: button_click(9))
-
-button_0 = Button(root, text="0", padx=40, pady=20, command=lambda: button_click(0))
-
-button_add = Button(root, text="+", padx=39, pady=20, command=button_add)
-
-button_equal = Button(root, text="=", padx=91, pady=20, command=button_equal)
-
-button_clear = Button(root, text="Clear", padx=79, pady=20, command=button_clear)
-
-button_subtract = Button(root, text="-", padx=41, pady=20, command=button_subtract)
-
-button_multiply = Button(root, text="*", padx=40, pady=20, command=button_multiply)
-
-button_divide = Button(root, text="/", padx=41, pady=20, command=button_divide)
-
-# Put the buttons on the screen
-
-button_1.grid(row=3, column=0)
-
-button_2.grid(row=3, column=1)
-
-button_3.grid(row=3, column=2)
-
-button_4.grid(row=2, column=0)
-
-button_4.grid(row=2, column=0)
-
-button_5.grid(row=2, column=1)
-
-button_6.grid(row=2, column=2)
-
-button_7.grid(row=1, column=0)
-
-button_8.grid(row=1, column=1)
-
-button_9.grid(row=1, column=2)
-
+button_0 = tk.Button(root, text="0", font=("Arial", 16), command=lambda: add_digit("0"),bg="black",fg="white",width=3,height=1)
 button_0.grid(row=4, column=0)
 
-button_clear.grid(row=4, column=1, columnspan=2)
+button_1 = tk.Button(root, text="1", font=("Arial", 16), command=lambda: add_digit("1"),bg="black",fg="white",width=3)
+button_1.grid(row=4, column=1)
 
-button_add.grid(row=5, column=0)
+button_2 = tk.Button(root, text="2", font=("Arial", 16), command=lambda: add_digit("2"),bg="black",fg="white",width=3)
+button_2.grid(row=4, column=2)
 
-button_equal.grid(row=5, column=1, columnspan=2)
+button_3 = tk.Button(root, text="3", font=("Arial", 16), command=lambda: add_digit("3"),bg="black",fg="white",width=3)
+button_3.grid(row=5, column=0)
 
-button_subtract.grid(row=6, column=0)
+button_4 = tk.Button(root, text="4", font=("Arial", 16), command=lambda: add_digit("4"),bg="black",fg="white",width=3)
+button_4.grid(row=5, column=1)
 
-button_multiply.grid(row=6, column=1)
+button_5 = tk.Button(root, text="5", font=("Arial", 16), command=lambda: add_digit("5"),bg="black",fg="white",width=3)
+button_5.grid(row=5, column=2)
 
-button_divide.grid(row=6, column=2)
+button_6 = tk.Button(root, text="6", font=("Arial", 16), command=lambda: add_digit("6"),bg="black",fg="white",width=3)
+button_6.grid(row=6, column=0)
+
+button_7 = tk.Button(root, text="7", font=("Arial", 16), command=lambda: add_digit("7"),bg="black",fg="white",width=3)
+button_7.grid(row=6, column=1)
+
+button_8 = tk.Button(root, text="8", font=("Arial", 16), command=lambda: add_digit("8"),bg="black",fg="white",width=3)
+button_8.grid(row=6, column=2)
+
+button_9 = tk.Button(root, text="9", font=("Arial", 16), command=lambda: add_digit("9"),bg="black",fg="white",width=3)
+button_9.grid(row=7, column=1)
+
+# Create the button to perform the calculation
+button_calculate = tk.Button(root, text="Calculate", font=("Arial", 16), command=calculate,bg="black",fg="white")
+button_calculate.grid(row=8, column=0)
+
+# Create the label to display the result
+label_result = tk.Label(root, text="", font=("Arial", 16))
+label_result.grid(row=8, column=1)
+
+# Create the button to show the history
+button_history = tk.Button(root, text="History", font=("Arial", 16), command=show_history,bg="black",fg="white")
+button_history.grid(row=9, column=0)
+
+# Create the button to delete the last digit of the currently focused input field
+button_delete = tk.Button(root, text="Delete", font=("Arial", 16), command=delete_digit,bg="black",fg="white")
+button_delete.grid(row=7, column=2)
+
+# Create the list to store the history
+history = []
+
+# Define the symbols for each operation choice
+choice_symbols = {
+    1: "+",
+    2: "-",
+    3: "*",
+    4: "/"
+}
+
+# Bind the Delete key to the delete_digit() function
+root.bind("<Delete>", lambda event: delete_digit())
 
 root.mainloop()
-
-
-
 
 
 
