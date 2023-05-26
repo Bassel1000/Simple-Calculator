@@ -4,12 +4,12 @@ This is a simple calculator GUI built using Python and the Tkinter library. The 
 Getting Started
 To run the calculator, you'll need to have Python and the Tkinter library installed on your computer. You can download Python from the official website (https://www.python.org/downloads/) and install Tkinter using pip: ```pip install tkinter```
 # How to Use
-1.Enter the first number in the "Enter first number" input field. <br>
-2.Enter the second number in the "Enter second number" input field. <br>
-3.Choose the operation you want to perform by clicking on one of the radio buttons. <br>
-4.Click the "Calculate" button to perform the operation and display the result in the "Result" label. <br>
-5.To view the history of calculations, click the "History" button. <br>
-6.To delete the last digit of the currently focused input field, click the "Delete" button. <br>
+1. Enter the first number in the "Enter first number" input field. <br>
+2. Enter the second number in the "Enter second number" input field. <br>
+3. Choose the operation you want to perform by clicking on one of the radio buttons. <br>
+4. Click the "Calculate" button to perform the operation and display the result in the "Result" label. <br>
+5. To view the history of calculations, click the "History" button. <br>
+6. To delete the last digit of the currently focused input field, click the "Delete" button. <br>
 # Code Explanation
 The code is divided into several functions:
 
